@@ -1,0 +1,35 @@
+:root {
+  /* Dark theme defaults */
+  --bg: #040815;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  --text: #e8edf8;
+  --text-soft: #94a3b8;
+  --primary: #6366f1;
+  --primary-soft: rgba(99, 102, 241, 0.15);
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  --radius: 24px;
+  --font: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+[data-theme="light"] {
+  --bg: #f5f7ff;
+  --surface: rgba(0, 0, 0, 0.04);
+  --surface-strong: rgba(0, 0, 0, 0.07);
+  --text: #212631;
+  --text-soft: #475569;
+  --primary: #5c6ac4;
+  --primary-soft: rgba(92, 106, 196, 0.15);
+  --border: rgba(0, 0, 0, 0.08);
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+  --radius: 24px;
+  --font: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+/* Global element styles */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}

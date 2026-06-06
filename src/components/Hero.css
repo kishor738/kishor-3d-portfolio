@@ -1,0 +1,157 @@
+/* Hero.css */
+
+/* Import a modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Global hero section layout */
+.hero {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;               /* allow stacking on narrow screens */
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 2rem;
+  min-height: 60vh;              /* reduced height for mobile */
+  /* background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); */
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  overflow: visible;              /* allow overflow for animations */
+}
+
+.hero-left {
+  flex: 1 1 300px;               /* grow, shrink, base width */
+  max-width: 55%;
+  padding-right: 2rem;
+}
+
+.hero-right {
+  flex: 1 1 300px;
+  max-width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2rem;
+}
+
+/* Animated name styling */
+.hero-name-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.hero-name-char {
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #38bdf8, #38bdf8, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: hueShift 6s infinite linear;
+  display: inline-block;
+  will-change: filter, transform;
+}
+
+@keyframes hueShift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.hero-name-char:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s ease-out;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  line-height: 1.2;
+  margin: 1rem 0;
+}
+
+.hero h1 span { color: #38bdf8; }
+
+.hero .hero-desc {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.hero-buttons .btn-primary,
+.hero-buttons .btn-outline {
+  padding: 0.8rem 1.5rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+.hero-buttons .btn-primary {
+  background: #38bdf8;
+  color: #0f0c29;
+}
+
+.hero-buttons .btn-primary:hover {
+  background: #1e90ff;
+  transform: translateY(-3px);
+}
+
+.hero-buttons .btn-outline {
+  border: 2px solid #38bdf8;
+  color: #38bdf8;
+  background: transparent;
+}
+
+.hero-buttons .btn-outline:hover {
+  background: rgba(56, 189, 248, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Stats grid */
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;               /* wrap on small screens */
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.hero-stats .stat h3 {
+  font-size: 2rem;
+  margin: 0;
+  color: #38bdf8;
+}
+
+.hero-stats .stat p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Responsive tweaks */
+@media (max-width: 960px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 3rem 1rem;
+    min-height: auto;
+  }
+  .hero-left,
+  .hero-right {
+    max-width: 100%;
+    padding: 0;
+  }
+  .hero-name-char {
+    font-size: 2.2rem;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+  .hero .hero-desc {
+    font-size: 1rem;
+  }
+  .hero-stats {
+    justify-content: center;
+  }
+}
