@@ -1,4 +1,3 @@
-import './App.css'
 import { useEffect } from 'react'
 import GlobalScene3D from './components/GlobalScene3D.jsx'
 import Navbar from './components/Navbar.jsx'
