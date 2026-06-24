@@ -60,7 +60,7 @@ function AvatarModel({ modelUrl, isCompact, reducedMotion }) {
 
   const targetScale = isCompact ? 2.7 : 3.4
   const baseY = isCompact ? -1.02 : -0.88
-  const frontRotationY = Math.PI
+  const frontRotationY = 0
 
   useLayoutEffect(() => {
     if (!groupRef.current) return
