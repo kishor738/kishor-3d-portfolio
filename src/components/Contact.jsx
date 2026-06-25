@@ -1,105 +1,138 @@
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useTheme } from "../ThemeProvider.jsx";
 
-const recipientEmail = 'kishorrathod6203@gmail.com'
+const recipientEmail = "kishorrathod6203@gmail.com";
 
 const contactItems = [
   {
-    label: 'Email',
+    label: "Email",
     value: recipientEmail,
     href: `mailto:${recipientEmail}`,
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
         <polyline points="22,6 12,13 2,6" />
       </svg>
     ),
   },
   {
-    label: 'Location',
-    value: 'Hyderabad, Telangana, India',
+    label: "Location",
+    value: "Hyderabad, Telangana, India",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
         <circle cx="12" cy="10" r="3" />
       </svg>
     ),
   },
   {
-    label: 'Phone',
-    value: '+91 6268036569',
-    href: 'tel:+916268036569',
+    label: "Phone",
+    value: "+91 6268036569",
+    href: "tel:+916268036569",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
       </svg>
     ),
   },
-]
+];
 
 const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/kishor738' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kishor-rathod-1b4a34221/' },
-  { label: 'LeetCode', href: 'https://leetcode.com/u/kishorrathod6203/' },
-]
+  { label: "GitHub", href: "https://github.com/kishor738" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/kishor-rathod-1b4a34221/",
+  },
+  { label: "LeetCode", href: "https://leetcode.com/u/kishorrathod6203/" },
+];
 
 function Contact() {
-  const submitFrameLoaded = useRef(false)
-  const submittingRef = useRef(false)
-  const [submitStatus, setSubmitStatus] = useState('idle')
+  const submitFrameLoaded = useRef(false);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const submittingRef = useRef(false);
+  const [submitStatus, setSubmitStatus] = useState("idle");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
-  const [fileName, setFileName] = useState('No file chosen')
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [fileName, setFileName] = useState("No file chosen");
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    })
-    setFileName('No file chosen')
-  }
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+    setFileName("No file chosen");
+  };
 
   const handleChange = (event) => {
-    const { name, value } = event.target
-    setFormData((current) => ({ ...current, [name]: value }))
-    if (submitStatus !== 'idle') setSubmitStatus('idle')
-  }
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+    if (submitStatus !== "idle") setSubmitStatus("idle");
+  };
 
   const handleFileChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
-      setFileName(event.target.files[0].name)
+      setFileName(event.target.files[0].name);
     } else {
-      setFileName('No file chosen')
+      setFileName("No file chosen");
     }
-  }
+  };
 
   const handleSubmit = () => {
-    submittingRef.current = true
-    setSubmitStatus('sending')
-  }
+    submittingRef.current = true;
+    setSubmitStatus("sending");
+  };
 
   const handleSubmitFrameLoad = () => {
     if (!submitFrameLoaded.current) {
-      submitFrameLoaded.current = true
-      return
+      submitFrameLoaded.current = true;
+      return;
     }
 
-    if (!submittingRef.current) return
+    if (!submittingRef.current) return;
 
-    submittingRef.current = false
-    setSubmitStatus('success')
-    resetForm()
+    submittingRef.current = false;
+    setSubmitStatus("success");
+    resetForm();
 
     window.setTimeout(() => {
-      setSubmitStatus('idle')
-    }, 3500)
-  }
+      setSubmitStatus("idle");
+    }, 3500);
+  };
 
   return (
     <section
@@ -122,8 +155,8 @@ function Contact() {
               </span>
             </div>
             <p className="mb-8 text-[0.95rem] leading-[1.6] text-white/80">
-              Share your idea, tech, or project requirement. I will help turn it into a clean,
-              responsive, production-ready user experience.
+              Share your idea, tech, or project requirement. I will help turn it
+              into a clean, responsive, production-ready user experience.
             </p>
           </div>
 
@@ -133,7 +166,16 @@ function Contact() {
                 key={item.label}
                 className="flex items-center gap-3.5 rounded-xl border border-white/[0.04] bg-white/[0.015] p-3 transition-all duration-300 hover:border-[#4361EE]/20 hover:bg-white/[0.035]"
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#4361EE]/[0.14] bg-[#4361EE]/[0.08] text-[#4361EE]">
+                <div
+                  className={`
+    flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border
+    ${
+      isLight
+        ? "bg-slate-100 text-slate-700 border-slate-200"
+        : "bg-[#4361EE]/10 text-[#38BDF8] border-[#4361EE]/20"
+    }
+  `}
+                >
                   {item.icon}
                 </div>
                 <div className="min-w-0 text-left">
@@ -157,8 +199,27 @@ function Contact() {
             ))}
 
             <div className="flex items-center gap-3.5 rounded-xl border border-white/[0.04] bg-white/[0.015] p-3 transition-all duration-300 hover:border-[#4361EE]/20 hover:bg-white/[0.035]">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#4361EE]/[0.14] bg-[#4361EE]/[0.08] text-[#4361EE]">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div
+                className={`
+    flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border
+    ${
+      isLight
+        ? "bg-slate-100 text-slate-700 border-slate-200"
+        : "bg-[#4361EE]/10 text-[#38BDF8] border-[#4361EE]/20"
+    }
+  `}
+              >
+                {" "}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                 </svg>
@@ -169,7 +230,10 @@ function Contact() {
                 </span>
                 <div className="mt-0.5 flex items-center gap-1.5">
                   {socialLinks.map((link, index) => (
-                    <span className="inline-flex items-center gap-1.5 text-[0.9rem] font-semibold text-white/80" key={link.label}>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-[0.9rem] font-semibold text-white/80"
+                      key={link.label}
+                    >
                       <a
                         className="transition-colors duration-300 hover:text-[#38BDF8]"
                         href={link.href}
@@ -205,7 +269,11 @@ function Contact() {
           <input
             type="hidden"
             name="_subject"
-            value={formData.subject ? `Portfolio inquiry: ${formData.subject}` : 'Portfolio inquiry'}
+            value={
+              formData.subject
+                ? `Portfolio inquiry: ${formData.subject}`
+                : "Portfolio inquiry"
+            }
           />
           <input type="hidden" name="_replyto" value={formData.email} />
           <input type="hidden" name="_template" value="table" />
@@ -281,7 +349,9 @@ function Contact() {
               >
                 Choose File
               </label>
-              <span className="max-w-full truncate text-[0.78rem] text-white/50 sm:max-w-[200px]">{fileName}</span>
+              <span className="max-w-full truncate text-[0.78rem] text-white/50 sm:max-w-[200px]">
+                {fileName}
+              </span>
             </div>
           </div>
 
@@ -290,14 +360,14 @@ function Contact() {
             type="submit"
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
-            disabled={submitStatus === 'sending'}
+            disabled={submitStatus === "sending"}
           >
             <span>
-              {submitStatus === 'sending'
-                ? 'Sending...'
-                : submitStatus === 'success'
-                  ? 'Message Sent'
-                  : 'Send Message'}
+              {submitStatus === "sending"
+                ? "Sending..."
+                : submitStatus === "success"
+                  ? "Message Sent"
+                  : "Send Message"}
             </span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
@@ -305,11 +375,15 @@ function Contact() {
           </motion.button>
 
           <div className="min-h-[1.25rem] text-[0.82rem]">
-            {submitStatus === 'sending' && (
-              <p className="m-0 text-white/55">Sending your message without leaving the page...</p>
+            {submitStatus === "sending" && (
+              <p className="m-0 text-white/55">
+                Sending your message without leaving the page...
+              </p>
             )}
-            {submitStatus === 'success' && (
-              <p className="m-0 text-[#34d399]">Your message has been sent successfully.</p>
+            {submitStatus === "success" && (
+              <p className="m-0 text-[#34d399]">
+                Your message has been sent successfully.
+              </p>
             )}
           </div>
         </motion.form>
@@ -337,7 +411,7 @@ function Contact() {
         onLoad={handleSubmitFrameLoad}
       />
     </section>
-  )
+  );
 }
 
-export default Contact
+export default Contact;

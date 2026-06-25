@@ -2,18 +2,19 @@
 import { createContext, useEffect, useState, useContext } from 'react'
 
 const ThemeContext = createContext({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
 })
 
+const THEME_STORAGE_KEY = 'theme-v2'
+
 const getInitialTheme = () => {
-  if (typeof window === 'undefined') return 'dark'
+  if (typeof window === 'undefined') return 'light'
 
-  const stored = localStorage.getItem('theme')
-  if (stored) return stored
+  const stored = localStorage.getItem(THEME_STORAGE_KEY)
+  if (stored === 'dark' || stored === 'light') return stored
 
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  return prefersDark ? 'dark' : 'light'
+  return 'light'
 }
 
 export const ThemeProvider = ({ children }) => {
@@ -21,7 +22,8 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
+    document.documentElement.style.colorScheme = theme
+    localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
   const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))

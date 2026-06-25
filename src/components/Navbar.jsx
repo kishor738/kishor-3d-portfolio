@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../ThemeProvider.jsx";
 
 const navItems = [
   { href: "#hero", label: "Home" },
@@ -12,6 +13,7 @@ const navItems = [
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
+  const { theme, toggleTheme } = useTheme();
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
@@ -46,7 +48,11 @@ function Navbar() {
         <span className="w-8 h-8 rounded-full flex items-center justify-center text-[0.72rem] font-black text-white bg-gradient-to-br from-[#4361EE] to-[#6366f1] shadow-[0_0_12px_rgba(67,97,238,0.4)] shrink-0">
           KR
         </span>
-        <span className="text-[0.95rem] sm:text-[1rem] font-bold text-white tracking-[-0.02em]">
+        <span
+          className={`text-[0.95rem] sm:text-[1rem] font-bold tracking-[-0.02em] transition-colors duration-300 ${
+            theme === "light" ? "text-slate-900" : "text-white"
+          }`}
+        >
           Kishor<span className="text-[#4361EE]">.dev</span>
         </span>
       </motion.a>
@@ -78,21 +84,47 @@ function Navbar() {
         {/* Moon Icon Toggle (Decorative dark-mode outline) */}
         <button
           type="button"
-          className="min-[900px]:inline-flex hidden items-center justify-center w-9 h-9 rounded-full border border-white/10 hover:border-white/20 hover:bg-white/[0.04] transition-all text-white/80 hover:text-white"
-          aria-label="Toggle dark mode"
+          className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-white/10 hover:border-white/20 hover:bg-white/[0.04] transition-all text-white/80 hover:text-white shrink-0"
+          aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+          aria-pressed={theme === "dark"}
+          onClick={toggleTheme}
+          title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
+          {theme === "light" ? (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 12.8A8.8 8.8 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+            </svg>
+          ) : (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="M4.93 4.93l1.41 1.41" />
+              <path d="M17.66 17.66l1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="M4.93 19.07l1.41-1.41" />
+              <path d="M17.66 6.34l1.41-1.41" />
+            </svg>
+          )}
         </button>
 
         {/* Hire Me CTA — gradient */}

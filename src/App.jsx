@@ -7,8 +7,12 @@ import Skills from './components/Skills.jsx'
 import Projects from './components/Projects.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
+import { useTheme } from './ThemeProvider.jsx'
+import LinkedParticles from './components/LinkedParticles.jsx'
 
 function App() {
+  const { theme } = useTheme()
+
   // Scroll reveal observer to animate sections on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,7 +37,8 @@ function App() {
 
   return (
     <div className="app-shell">
-      <GlobalScene3D mode="particles" theme="dark" />
+      <GlobalScene3D mode="particles" theme={theme} />
+      <LinkedParticles theme={theme}/>
       <Navbar />
       <main>
         <Hero />

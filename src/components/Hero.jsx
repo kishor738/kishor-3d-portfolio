@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import ThreeAvatar from "./ThreeAvatar";
+import { useTheme } from "../ThemeProvider.jsx";
 
 const stats = [
   {
@@ -97,14 +98,18 @@ const itemVariants = {
 };
 
 function Hero() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const description =
+  "Full Stack Developer specializing in modern web applications, backend systems, and user-focused experiences using React, React Native, Next.js, Node.js, Spring Boot, Tailwind CSS, Three.js, MySQL, MongoDB and cloud technologies.";
   return (
     <section
       id="hero"
-      className="min-h-screen flex flex-col justify-center items-center pt-[82px] sm:pt-[100px] px-[18px] sm:px-6 lg:px-[8%] pb-[36px] sm:pb-[60px] text-white font-sans relative overflow-visible"
+      className="hero-section min-h-screen flex flex-col justify-center items-center pt-[82px] sm:pt-[100px] px-[18px] sm:px-6 lg:px-[8%] pb-[36px] sm:pb-[60px] text-white font-sans relative overflow-visible"
     >
       {/* Background glow blobs */}
-      <div className="absolute w-[560px] h-[560px] top-[-100px] right-[-100px] rounded-full bg-[radial-gradient(circle,rgba(67,97,238,0.12),transparent_70%)] pointer-events-none z-[1]" />
-      <div className="absolute w-[420px] h-[420px] bottom-[-80px] left-[-100px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.09),transparent_70%)] pointer-events-none z-[1]" />
+      <div className="hero-ambient-orb hero-ambient-orb-one absolute w-[560px] h-[560px] top-[-100px] right-[-100px] rounded-full bg-[radial-gradient(circle,rgba(67,97,238,0.12),transparent_70%)] pointer-events-none z-[1]" />
+      <div className="hero-ambient-orb hero-ambient-orb-two absolute w-[420px] h-[420px] bottom-[-80px] left-[-100px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.09),transparent_70%)] pointer-events-none z-[1]" />
       <div className="hero-grid-overlay absolute inset-0 pointer-events-none z-[1]" />
 
       {/* Main split grid/flex row */}
@@ -118,7 +123,7 @@ function Hero() {
         >
           {/* Available badge (dark green theme) */}
           <motion.div
-            className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-[#064e3b]/30 border border-[#059669]/30 backdrop-blur-[16px] shadow-[0_2px_14px_rgba(0,0,0,0.2)] mb-5 text-[#34d399]"
+            className="hero-availability-badge inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-[#064e3b]/30 border border-[#059669]/30 backdrop-blur-[16px] shadow-[0_2px_14px_rgba(0,0,0,0.2)] mb-5 text-[#34d399]"
             variants={itemVariants}
           >
             <span className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981,0_0_16px_#10b981] animate-[pulseDot_2.2s_infinite] shrink-0" />
@@ -140,7 +145,26 @@ function Hero() {
             className="text-[clamp(1.8rem,4.5vw,3.6rem)] font-bold leading-[1.08] tracking-[-1px] mb-2.5 mt-0 bg-[linear-gradient(135deg,#ffffff_10%,#38bdf8_55%,#6366f1_100%)] bg-[length:200%_200%] bg-clip-text text-transparent animate-[nameGradientMove_6s_ease-in-out_infinite_alternate]"
             variants={itemVariants}
           >
-            Kishor Rathod
+            {"Kishor Rathod".split("").map((char, index) => (
+              <motion.span
+                key={index}
+                className="inline-block"
+                initial={{
+                  opacity: 0,
+                  y: 40,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: index * 0.08,
+                  duration: 0.5,
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
           </motion.h2>
 
           {/* Tagline */}
@@ -156,15 +180,27 @@ function Hero() {
           </motion.h1>
 
           {/* Description */}
-          <motion.p
-            className="text-[0.95rem] sm:text-[1rem] leading-[1.7] text-[#8892A4] max-w-[520px] mt-0 mb-6 lg:text-left text-center lg:mx-0 mx-auto"
-            variants={itemVariants}
-          >
-            Full Stack Developer specializing in modern web applications,
-            backend systems, and user-focused experiences using React,React
-            Native, Next.js, Node.js, Spring Boot, Tailwind CSS, Three.js,
-            MySQL, MongoDB and cloud technologies.
-          </motion.p>
+          <motion.p className="text-[0.95rem] sm:text-[1rem] leading-[1.7] text-[#8892A4] max-w-[520px] mb-3 sm:mb-4" variants={itemVariants}>
+  {description.split(" ").map((word, index) => (
+    <motion.span
+      key={index}
+      initial={{
+        opacity: 0,
+        y: 10,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        delay: 0.8 + index * 0.03,
+      }}
+      className="inline-block mr-1"
+    >
+      {word}
+    </motion.span>
+  ))}
+</motion.p>
 
           {/* CTAs - Three Button Row matching mockup */}
           <motion.div
@@ -252,7 +288,7 @@ function Hero() {
               href="https://github.com/kishor738"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
+              className="hero-social-icon w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
               aria-label="GitHub Profile"
             >
               <svg
@@ -272,7 +308,7 @@ function Hero() {
               href="https://www.linkedin.com/in/kishor-rathod-1b4a34221/"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
+              className="hero-social-icon w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
               aria-label="LinkedIn Profile"
             >
               <svg
@@ -294,7 +330,7 @@ function Hero() {
               href="https://www.hackerrank.com/profile/kishorrathod6203"
               target="_blank"
               rel="noreferrer"
-              className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
+              className="hero-social-icon w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
               aria-label="HackerRank Profile"
             >
               <svg
@@ -308,7 +344,7 @@ function Hero() {
             </a>
             <a
               href="mailto:kishorrathod6203@gmail.com"
-              className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
+              className="hero-social-icon w-10 h-10 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#4361EE]/40 hover:bg-[#4361EE]/[0.08] hover:text-[#4361EE] flex items-center justify-center text-white/70 transition-all duration-300 hover:-translate-y-0.5"
               aria-label="Send Email"
             >
               <svg
@@ -350,9 +386,17 @@ function Hero() {
         {stats.map((item, i) => (
           <div
             key={i}
-            className="p-4 rounded-xl bg-[#040B18]/50 border border-white/[0.05] backdrop-blur-[18px] flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-1 hover:bg-[#4361EE]/[0.05] hover:border-[#4361EE]/25 hover:shadow-[0_15px_40px_rgba(67,97,238,0.1)] group"
+            className="hero-stat-card p-4 rounded-xl bg-[#040B18]/50 border border-white/[0.05] backdrop-blur-[18px] flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-1 hover:bg-[#4361EE]/[0.05] hover:border-[#4361EE]/25 hover:shadow-[0_15px_40px_rgba(67,97,238,0.1)] group"
           >
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#4361EE]/[0.08] border border-[#4361EE]/[0.14] text-[#4361EE] transition-all duration-300 group-hover:bg-[#4361EE] group-hover:text-white group-hover:scale-[1.05] group-hover:shadow-[0_0_14px_rgba(67,97,238,0.4)] shrink-0">
+            <div
+              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-300 shrink-0
+  ${
+    isLight
+      ? "bg-blue-50 border border-blue-200 text-blue-600"
+      : "bg-[#4361EE]/[0.08] border border-[#4361EE]/[0.14] text-[#4361EE]"
+  }`}
+            >
+              {" "}
               {item.icon}
             </div>
             <div className="flex flex-col items-start text-left">

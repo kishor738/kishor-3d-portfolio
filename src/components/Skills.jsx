@@ -1,8 +1,25 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTheme } from '../ThemeProvider.jsx'
+
+const isNeutralAccent = (color) => color.toUpperCase() === '#FFFFFF'
+
+const getSkillTone = (skill, isLight) => {
+  if (isLight && isNeutralAccent(skill.color)) {
+    return {
+      color: '#0f172a',
+      rgb: '15, 23, 42',
+    }
+  }
+
+  return {
+    color: skill.color,
+    rgb: skill.rgb,
+  }
+}
 
 // Official colored brand SVG Icons for all 20 mockup tech stack items
-const TechIcon = ({ type }) => {
+const TechIcon = ({ type, isLight = false }) => {
   const icons = {
     html: (
       <svg viewBox="0 0 24 24" className="w-10 h-10 shrink-0">
@@ -117,7 +134,11 @@ const TechIcon = ({ type }) => {
     ),
     vercel: (
       <svg viewBox="0 0 24 24" className="w-10 h-10 shrink-0">
-        <path d="M12 2L2 21h20L12 2z" fill="#FFFFFF" stroke="rgba(255,255,255,0.1)" />
+        <path
+          d="M12 2L2 21h20L12 2z"
+          fill={isLight ? '#0f172a' : '#FFFFFF'}
+          stroke={isLight ? 'rgba(15,23,42,0.12)' : 'rgba(255,255,255,0.1)'}
+        />
       </svg>
     ),
     figma: (
@@ -444,6 +465,8 @@ const skillsList = [
 ]
 
 function Skills() {
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
   const [activeCategory, setActiveCategory] = useState('All')
   
   // Initialize the selected skill to the first item in the list
@@ -470,6 +493,7 @@ function Skills() {
   // Active skill mapping for Left Column
   const activeSkillName = hoveredSkillName || selectedSkillName
   const activeSkill = skillsList.find(s => s.name === activeSkillName) || skillsList[0]
+  const activeTone = getSkillTone(activeSkill, isLight)
 
   // Filter skills list for the grid on the right
   const filteredSkills = activeCategory === 'All'
@@ -530,8 +554,8 @@ function Skills() {
             layout
             className="pro-panel-glass relative overflow-hidden rounded-[18px] border border-white/[0.07] bg-[#040B18]/80 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.32)]"
             style={{
-              borderColor: `rgba(${activeSkill.rgb}, 0.2)`,
-              boxShadow: `0 18px 45px rgba(${activeSkill.rgb}, 0.08), inset 0 1px 0 rgba(255,255,255,0.05)`,
+              borderColor: `rgba(${activeTone.rgb}, 0.2)`,
+              boxShadow: `0 18px 45px rgba(${activeTone.rgb}, 0.08), inset 0 1px 0 rgba(255,255,255,0.05)`,
             }}
           >
             <button
@@ -553,14 +577,17 @@ function Skills() {
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-[0.85rem] font-black text-white">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-[0.85rem] font-black text-white"
+                style={{ borderColor: `rgba(${activeTone.rgb}, 0.16)`, color: activeTone.color }}
+              >
                 {activeSkill.level}%
               </div>
             </button>
 
             <div className="mt-3 flex items-center gap-3">
               <div className="relative h-16 w-16 shrink-0">
-                <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+                  <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
                   <circle className="fill-none stroke-white/[0.05] stroke-[8]" cx="50" cy="50" r="42" />
                   <motion.circle
                     className="fill-none stroke-[8] stroke-linecap-round"
@@ -568,7 +595,7 @@ function Skills() {
                     cy="50"
                     r="42"
                     style={{
-                      stroke: activeSkill.color,
+                      stroke: activeTone.color,
                       strokeDasharray: '264',
                     }}
                     initial={{ strokeDashoffset: 264 }}
@@ -577,7 +604,7 @@ function Skills() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-[0.92rem] font-extrabold leading-none text-white">{activeSkill.level}%</span>
+                  <span className="text-[0.92rem] font-extrabold leading-none text-white" style={{ color: activeTone.color }}>{activeSkill.level}%</span>
                   <span className="mt-0.5 text-[0.48rem] font-bold uppercase tracking-wider text-[#8892A4]">Mastery</span>
                 </div>
               </div>
@@ -663,8 +690,8 @@ function Skills() {
             <div 
               className="pro-panel-glass relative p-5 sm:p-8 max-sm:rounded-[18px] max-sm:p-4 max-sm:shadow-[0_18px_40px_rgba(0,0,0,0.28)] lg:min-h-[460px] flex flex-col justify-between transition-all duration-300"
               style={{
-                border: `1px solid rgba(${activeSkill.rgb}, 0.25)`,
-                boxShadow: `0 15px 45px rgba(${activeSkill.rgb}, 0.08), inset 0 1px 0 rgba(255,255,255,0.05)`
+                border: `1px solid rgba(${activeTone.rgb}, 0.25)`,
+                boxShadow: `0 15px 45px rgba(${activeTone.rgb}, 0.08), inset 0 1px 0 rgba(255,255,255,0.05)`
               }}
             >
               <AnimatePresence mode="wait">
@@ -678,7 +705,7 @@ function Skills() {
                 >
                   {/* Active profile badge + Title */}
                   <div className="mb-4 sm:mb-5">
-                    <div className="inline-flex py-1 px-3.5 rounded-full text-[0.72rem] font-bold tracking-[0.05em] uppercase mb-3" style={{ backgroundColor: `rgba(${activeSkill.rgb}, 0.12)`, color: activeSkill.color }}>
+                    <div className="inline-flex py-1 px-3.5 rounded-full text-[0.72rem] font-bold tracking-[0.05em] uppercase mb-3" style={{ backgroundColor: `rgba(${activeTone.rgb}, 0.12)`, color: activeTone.color }}>
                       Active Profile
                     </div>
                     <h3 className="m-0 text-[1.45rem] sm:text-[1.65rem] font-extrabold text-white tracking-tight">{activeSkill.name}</h3>
@@ -698,7 +725,7 @@ function Skills() {
                           cy="50" 
                           r="42"
                           style={{ 
-                            stroke: activeSkill.color,
+                            stroke: activeTone.color,
                             strokeDasharray: '264',
                           }}
                           initial={{ strokeDashoffset: 264 }}
@@ -707,7 +734,7 @@ function Skills() {
                         />
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-[1rem] sm:text-[1.12rem] font-extrabold leading-none text-white">{activeSkill.level}%</span>
+                        <span className="text-[1rem] sm:text-[1.12rem] font-extrabold leading-none text-white" style={{ color: activeTone.color }}>{activeSkill.level}%</span>
                         <span className="text-[0.54rem] sm:text-[0.56rem] text-[#8892A4] uppercase mt-0.5 font-bold tracking-wider">Mastery</span>
                       </div>
                     </div>
@@ -763,6 +790,7 @@ function Skills() {
                 {filteredSkills.map((skill, idx) => {
                   const isSelected = selectedSkillName === skill.name
                   const isActive = hoveredSkillName === skill.name || isSelected
+                  const skillTone = getSkillTone(skill, isLight)
                   return (
                     <motion.div
                       key={skill.name}
@@ -781,8 +809,8 @@ function Skills() {
                       tabIndex="0"
                       aria-pressed={isSelected}
                       style={{ 
-                        '--skill-color': skill.color,
-                        '--skill-rgb': skill.rgb
+                        '--skill-color': skillTone.color,
+                        '--skill-rgb': skillTone.rgb
                       }}
                     >
                       <div className="skill-card-bg"></div>
@@ -790,7 +818,7 @@ function Skills() {
                       <div className="skill-card-border"></div>
                       
                       <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center group">
-                        <TechIcon type={skill.iconKey} />
+                        <TechIcon type={skill.iconKey} isLight={isLight} />
                         <span className="text-[0.76rem] font-bold text-white/80 transition-colors duration-300 group-hover:text-white">
                           {skill.name}
                         </span>
